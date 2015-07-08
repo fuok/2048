@@ -10,12 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
+	private static GameBoard gb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,9 @@ public class MainActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
 		}
+
+		gb = new GameBoard();
+		gb.toString();
 	}
 
 	@Override
@@ -50,9 +56,10 @@ public class MainActivity extends ActionBarActivity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
+	public static class PlaceholderFragment extends Fragment implements OnClickListener {
 
-		TextView tv1;
+		// TextView tv1;
+		Button btn1, btn2, btn3, btn4;
 
 		public PlaceholderFragment() {
 		}
@@ -60,26 +67,51 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-			tv1 = (TextView) rootView.findViewById(R.id.tv1);
-			tv1.setOnTouchListener(new OnTouchListener() {
-
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					Log.w("liuy", event.getAction() + "");
-					return true;
-				}
-			});
+			iniView(rootView);
+			// tv1 = (TextView) rootView.findViewById(R.id.tv1);
+			// tv1.setOnTouchListener(new OnTouchListener() {
+			//
+			// @Override
+			// public boolean onTouch(View v, MotionEvent event) {
+			// Log.w("liuy", event.getAction() + "");
+			// return true;
+			// }
+			// });
 			return rootView;
 		}
 
+		private void iniView(final View v) {
+			btn1 = (Button) v.findViewById(R.id.btn1);
+			btn1.setOnClickListener(this);
+			btn2 = (Button) v.findViewById(R.id.btn2);
+			btn2.setOnClickListener(this);
+			btn3 = (Button) v.findViewById(R.id.btn3);
+			btn3.setOnClickListener(this);
+			btn4 = (Button) v.findViewById(R.id.btn4);
+			btn4.setOnClickListener(this);
+		}
+
 		@Override
-		public void onResume() {
-			// TODO Auto-generated method stub
-			super.onResume();
-			GameBoard gb = new GameBoard();
-			gb.toString();
-			gb.plusLeft();
-			gb.toString();
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.btn1:
+				gb.pullUp();
+				gb.toString();
+				break;
+			case R.id.btn2:
+				gb.pullDown();
+				gb.toString();
+				break;
+			case R.id.btn3:
+				gb.pullLeft();
+				gb.toString();
+				break;
+			case R.id.btn4:
+				gb.pullRight();
+				gb.toString();
+				break;
+			}
+
 		}
 
 	}
