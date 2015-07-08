@@ -16,7 +16,7 @@ public class GameBoard {
 		for (int i = 0; i < dimensionArray.length; i++) {
 			for (int j = 0; j < dimensionArray[i].length; j++) {
 				// Log.w("liuy", i + "," + j);
-				dimensionArray[i][j] = -1;// 为了便于测试，我把棋盘写满了2，应该是-1.TODO
+				dimensionArray[i][j] = -1;
 			}
 		}
 	}
@@ -38,20 +38,27 @@ public class GameBoard {
 			}
 		}
 		Log.w("liuy", "空格数：" + n);
-		// 根据空格数量，从中随机找出填充进去的格子
-		int[] randomNum = Utils.getNumber2(count, n, 1);
-		Log.w("liuy", "填入的位置是：" + Arrays.toString(randomNum));
-		for (int i = 0; i < randomNum.length; i++) {
-			for (int j = 0, m = 0; j < dimensionArray.length; j++) {
-				for (int k = 0; k < dimensionArray[j].length; k++) {
-					if (dimensionArray[i][j] == -1) {
+		if (n > 0) {
+
+			// 根据空格数量，从中随机找出填充进去的格子
+			int[] randomNum = Utils.getNumber2(count, n, 1);
+			Log.w("liuy", "填入的位置是：" + Arrays.toString(randomNum));
+			for (int x = 0, m = 0; x < dimensionArray.length; x++) {
+				for (int y = 0; y < dimensionArray[x].length; y++) {
+					if (dimensionArray[x][y] == -1) {
 						m++;
-						if (randomNum[i] == m) {
-							dimensionArray[i][j] = 2;// 填入的数值是2
+						for (int i = 0; i < randomNum.length; i++) {
+							if (randomNum[i] == m) {
+								Log.w("liuy", "填充");
+								dimensionArray[x][y] = 2;// 填入的数值是2
+							}
 						}
 					}
 				}
 			}
+		} else {
+			Log.w("liuy", "填满了");
+			return;
 		}
 
 	}
