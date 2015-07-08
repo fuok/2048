@@ -57,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
 		case R.id.action_restart:
 			Toast.makeText(getApplicationContext(), "haha", Toast.LENGTH_SHORT).show();
 			gb = new GameBoard();
+			gb.randomAdd(2);
 			gb.toString();
 			break;
 		case R.id.action_settings:
@@ -113,18 +114,22 @@ public class MainActivity extends ActionBarActivity {
 			switch (v.getId()) {
 			case R.id.btn1:
 				gb.pullUp();
+				gb.randomAdd(1);
 				gb.toString();
 				break;
 			case R.id.btn2:
 				gb.pullDown();
+				gb.randomAdd(1);
 				gb.toString();
 				break;
 			case R.id.btn3:
 				gb.pullLeft();
+				gb.randomAdd(1);
 				gb.toString();
 				break;
 			case R.id.btn4:
 				gb.pullRight();
+				gb.randomAdd(1);
 				gb.toString();
 				break;
 			case R.id.btn5:
