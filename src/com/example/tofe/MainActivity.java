@@ -15,9 +15,11 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
+
 	private static GameBoard gb;
 
 	@Override
@@ -47,7 +49,17 @@ public class MainActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		// if (id == R.id.action_settings) {
+		// return true;
+		// }
+		switch (id) {
+		case R.id.action_restart:
+			Toast.makeText(getApplicationContext(), "haha", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.action_settings:
+
+			break;
+		default:
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

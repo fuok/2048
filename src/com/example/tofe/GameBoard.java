@@ -4,7 +4,11 @@ import android.util.Log;
 
 public class GameBoard {
 
-	public int[][] dimensionArray = new int[4][4];// 一级数列为纵，二级数列为横
+	private int[][] dimensionArray = new int[4][4];// 一级数列为纵，二级数列为横
+
+	public int[][] getDArray() {
+		return dimensionArray;
+	}
 
 	public GameBoard() {
 		for (int i = 0; i < dimensionArray.length; i++) {
@@ -13,6 +17,21 @@ public class GameBoard {
 				dimensionArray[i][j] = 2;// 为了便于测试，我把棋盘写满了2，应该是-1.TODO
 			}
 		}
+	}
+
+	/**
+	 * 随机添加数字（一般是2），根据2048规则，开局添加两个，每次移动后添加1个
+	 * 
+	 * @param count
+	 *            添加的个数
+	 */
+	public void randomAdd(final int count) {
+
+		
+		
+		
+		
+		
 	}
 
 	public String toString() {
