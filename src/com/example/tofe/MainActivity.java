@@ -33,11 +33,12 @@ public class MainActivity extends ActionBarActivity {
 
 		gb = new GameBoard();
 		gb.toString();
+		gb.randomAdd(2);
+		gb.toString();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -55,6 +56,8 @@ public class MainActivity extends ActionBarActivity {
 		switch (id) {
 		case R.id.action_restart:
 			Toast.makeText(getApplicationContext(), "haha", Toast.LENGTH_SHORT).show();
+			gb = new GameBoard();
+			gb.toString();
 			break;
 		case R.id.action_settings:
 
@@ -71,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 	public static class PlaceholderFragment extends Fragment implements OnClickListener {
 
 		// TextView tv1;
-		Button btn1, btn2, btn3, btn4;
+		Button btn1, btn2, btn3, btn4, btn5;
 
 		public PlaceholderFragment() {
 		}
@@ -101,6 +104,8 @@ public class MainActivity extends ActionBarActivity {
 			btn3.setOnClickListener(this);
 			btn4 = (Button) v.findViewById(R.id.btn4);
 			btn4.setOnClickListener(this);
+			btn5 = (Button) v.findViewById(R.id.btn5);
+			btn5.setOnClickListener(this);
 		}
 
 		@Override
@@ -120,6 +125,10 @@ public class MainActivity extends ActionBarActivity {
 				break;
 			case R.id.btn4:
 				gb.pullRight();
+				gb.toString();
+				break;
+			case R.id.btn5:
+				gb.randomAdd(1);
 				gb.toString();
 				break;
 			}

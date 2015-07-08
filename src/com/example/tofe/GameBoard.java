@@ -1,5 +1,7 @@
 package com.example.tofe;
 
+import java.util.Arrays;
+
 import android.util.Log;
 
 public class GameBoard {
@@ -14,7 +16,7 @@ public class GameBoard {
 		for (int i = 0; i < dimensionArray.length; i++) {
 			for (int j = 0; j < dimensionArray[i].length; j++) {
 				// Log.w("liuy", i + "," + j);
-				dimensionArray[i][j] = 2;// 为了便于测试，我把棋盘写满了2，应该是-1.TODO
+				dimensionArray[i][j] = -1;// 为了便于测试，我把棋盘写满了2，应该是-1.TODO
 			}
 		}
 	}
@@ -26,12 +28,32 @@ public class GameBoard {
 	 *            添加的个数
 	 */
 	public void randomAdd(final int count) {
+		// 首先找出可供添加新子的位置，也就是空格
+		int n = 0;
+		for (int i = 0; i < dimensionArray.length; i++) {
+			for (int j = 0; j < dimensionArray[i].length; j++) {
+				if (dimensionArray[i][j] == -1) {
+					n++;
+				}
+			}
+		}
+		Log.w("liuy", "空格数：" + n);
+		// 根据空格数量，从中随机找出填充进去的格子
+		int[] randomNum = Utils.getNumber2(count, n, 1);
+		Log.w("liuy", "填入的位置是：" + Arrays.toString(randomNum));
+		for (int i = 0; i < randomNum.length; i++) {
+			for (int j = 0, m = 0; j < dimensionArray.length; j++) {
+				for (int k = 0; k < dimensionArray[j].length; k++) {
+					if (dimensionArray[i][j] == -1) {
+						m++;
+						if (randomNum[i] == m) {
+							dimensionArray[i][j] = 2;// 填入的数值是2
+						}
+					}
+				}
+			}
+		}
 
-		
-		
-		
-		
-		
 	}
 
 	public String toString() {
