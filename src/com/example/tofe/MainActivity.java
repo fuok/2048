@@ -1,22 +1,22 @@
 package com.example.tofe;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.GridLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -107,6 +107,31 @@ public class MainActivity extends ActionBarActivity {
 			btn4.setOnClickListener(this);
 			btn5 = (Button) v.findViewById(R.id.btn5);
 			btn5.setOnClickListener(this);
+
+			// //////////////
+			// 获取每个子item宽度
+			int COL_NUMBER = 4;// 4列
+			Display currDisplay = getActivity().getWindowManager().getDefaultDisplay();
+			Point size = new Point();
+			currDisplay.getSize(size);
+			int COL_WIDTH = (size.x / COL_NUMBER) - 12;// 两侧
+			// //
+			GridLayout grid_container = (GridLayout) v.findViewById(R.id.grid_container);
+			grid_container.setColumnCount(COL_NUMBER);
+			grid_container.setRowCount(COL_NUMBER);
+
+			for (int i = 0; i < 16; i++) {// 4*4
+				GridLayout.Spec rowSpec = GridLayout.spec(i / COL_NUMBER);// 呵呵3
+				GridLayout.Spec columnSpec = GridLayout.spec(i % COL_NUMBER);
+				GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+
+				params.setGravity(Gravity.CENTER);
+				params.height = COL_WIDTH;// LayoutParams.WRAP_CONTENT;
+				params.width = COL_WIDTH;
+
+				RelativeLayout item_layout = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.item_grid, null);
+				grid_container.addView(item_layout, params);
+			}
 		}
 
 		@Override
