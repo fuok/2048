@@ -57,7 +57,7 @@ public class GameBoard {
 				}
 			}
 		} else {
-			Log.w("liuy", "填满了");
+			Log.w("liuy", "填满了");// 这里应该是到不了了，因为移动时已经判断了doPlusOrMove，以下移动方法返回false就不会再调randomAdd了
 			return;
 		}
 
@@ -76,8 +76,9 @@ public class GameBoard {
 
 	}
 
-	public void pullLeft() {// 向左移动数字，从左到右逐行取值
+	public boolean pullLeft() {// 向左移动数字，从左到右逐行取值
 		int n = 4;// 4行
+		boolean doPlusOrMove = false;// 用于标记本次移动中是否有相加成立或移动成立
 		for (int i = 0; i < n; i++) {
 			// 声明一个新数组保存每一行的四位数字
 			int[] array = new int[4];
@@ -89,15 +90,22 @@ public class GameBoard {
 
 			// 去掉其中的-1,得到一个正值集中在前半部分的数组
 			int[] arrayWithoutNull1 = new int[] { -1, -1, -1, -1 };
+			// boolean doMove=false;
 			for (int j = 0, k = 0; j < array.length; j++) {
 				if (array[j] != -1) {
 					arrayWithoutNull1[k] = array[j];
 					k++;
 				}
+				if (doPlusOrMove == false && j < array.length - 1) {// 判断移动成立
+					if (array[j] == -1 && array[j + 1] != -1) {
+						doPlusOrMove = true;
+					}
+				}
 			}
 			// Log.w("liuy", "检测" + Arrays.toString(arrayWithoutNull1));
 			// 遍历这个数组，求和，因为一共四个数值，两两一对，实际上是对比次数比数组长度少1
 			int m = arrayWithoutNull1.length - 1;
+
 			for (int j = 0; j < m; j++) {
 				int a = arrayWithoutNull1[j];
 				int b = arrayWithoutNull1[j + 1];
@@ -106,6 +114,9 @@ public class GameBoard {
 					b = -1;
 					arrayWithoutNull1[j] = a;
 					arrayWithoutNull1[j + 1] = b;
+					if (doPlusOrMove == false) {// 判断相加成立
+						doPlusOrMove = true;
+					}
 				}
 			}
 
@@ -124,11 +135,18 @@ public class GameBoard {
 			dimensionArray[i][2] = arrayWithoutNull2[2];
 			dimensionArray[i][3] = arrayWithoutNull2[3];
 		}
+		if (doPlusOrMove) {
+			Log.w("liuy", "产生新数");
+		} else {
+			Log.w("liuy", "已无法移动");
+		}
+		return doPlusOrMove;
 
 	}
 
-	public void pullRight() {// 向右移动数字，从右到左逐行取值
+	public boolean pullRight() {// 向右移动数字，从右到左逐行取值
 		int n = 4;// 4行
+		boolean doPlusOrMove = false;// 用于标记本次移动中是否有相加成立或移动成立
 		for (int i = 0; i < n; i++) {
 			// 声明一个新数组保存每一行的四位数字
 			int[] array = new int[4];
@@ -145,6 +163,11 @@ public class GameBoard {
 					arrayWithoutNull1[k] = array[j];
 					k++;
 				}
+				if (doPlusOrMove == false && j < array.length - 1) {// 判断移动成立
+					if (array[j] == -1 && array[j + 1] != -1) {
+						doPlusOrMove = true;
+					}
+				}
 			}
 			// Log.w("liuy", "检测" + Arrays.toString(arrayWithoutNull1));
 			// 遍历这个数组，求和，因为一共四个数值，两两一对，实际上是对比次数比数组长度少1
@@ -157,6 +180,9 @@ public class GameBoard {
 					b = -1;
 					arrayWithoutNull1[j] = a;
 					arrayWithoutNull1[j + 1] = b;
+					if (doPlusOrMove == false) {// 判断相加成立
+						doPlusOrMove = true;
+					}
 				}
 			}
 
@@ -175,11 +201,17 @@ public class GameBoard {
 			dimensionArray[i][1] = arrayWithoutNull2[2];
 			dimensionArray[i][0] = arrayWithoutNull2[3];
 		}
-
+		if (doPlusOrMove) {
+			Log.w("liuy", "产生新数");
+		} else {
+			Log.w("liuy", "已无法移动");
+		}
+		return doPlusOrMove;
 	}
 
-	public void pullUp() {// 向上移动数字，从上到下逐列取值
+	public boolean pullUp() {// 向上移动数字，从上到下逐列取值
 		int n = 4;// 4列
+		boolean doPlusOrMove = false;// 用于标记本次移动中是否有相加成立或移动成立
 		for (int i = 0; i < n; i++) {
 			// 声明一个新数组保存每一行的四位数字
 			int[] array = new int[4];
@@ -196,6 +228,11 @@ public class GameBoard {
 					arrayWithoutNull1[k] = array[j];
 					k++;
 				}
+				if (doPlusOrMove == false && j < array.length - 1) {// 判断移动成立
+					if (array[j] == -1 && array[j + 1] != -1) {
+						doPlusOrMove = true;
+					}
+				}
 			}
 			// Log.w("liuy", "检测" + Arrays.toString(arrayWithoutNull1));
 			// 遍历这个数组，求和，因为一共四个数值，两两一对，实际上是对比次数比数组长度少1
@@ -208,6 +245,9 @@ public class GameBoard {
 					b = -1;
 					arrayWithoutNull1[j] = a;
 					arrayWithoutNull1[j + 1] = b;
+					if (doPlusOrMove == false) {// 判断相加成立
+						doPlusOrMove = true;
+					}
 				}
 			}
 
@@ -226,11 +266,17 @@ public class GameBoard {
 			dimensionArray[2][i] = arrayWithoutNull2[2];
 			dimensionArray[3][i] = arrayWithoutNull2[3];
 		}
-
+		if (doPlusOrMove) {
+			Log.w("liuy", "产生新数");
+		} else {
+			Log.w("liuy", "已无法移动");
+		}
+		return doPlusOrMove;
 	}
 
-	public void pullDown() {// 向下移动数字，从下到上逐列取值
+	public boolean pullDown() {// 向下移动数字，从下到上逐列取值
 		int n = 4;// 4列
+		boolean doPlusOrMove = false;// 用于标记本次移动中是否有相加成立或移动成立
 		for (int i = 0; i < n; i++) {
 			// 声明一个新数组保存每一行的四位数字
 			int[] array = new int[4];
@@ -247,6 +293,11 @@ public class GameBoard {
 					arrayWithoutNull1[k] = array[j];
 					k++;
 				}
+				if (doPlusOrMove == false && j < array.length - 1) {// 判断移动成立
+					if (array[j] == -1 && array[j + 1] != -1) {
+						doPlusOrMove = true;
+					}
+				}
 			}
 			// Log.w("liuy", "检测" + Arrays.toString(arrayWithoutNull1));
 			// 遍历这个数组，求和，因为一共四个数值，两两一对，实际上是对比次数比数组长度少1
@@ -259,6 +310,9 @@ public class GameBoard {
 					b = -1;
 					arrayWithoutNull1[j] = a;
 					arrayWithoutNull1[j + 1] = b;
+					if (doPlusOrMove == false) {// 判断相加成立
+						doPlusOrMove = true;
+					}
 				}
 			}
 
@@ -277,6 +331,12 @@ public class GameBoard {
 			dimensionArray[1][i] = arrayWithoutNull2[2];
 			dimensionArray[0][i] = arrayWithoutNull2[3];
 		}
+		if (doPlusOrMove) {
+			Log.w("liuy", "产生新数");
+		} else {
+			Log.w("liuy", "已无法移动");
+		}
+		return doPlusOrMove;
 
 	}
 }

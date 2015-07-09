@@ -113,24 +113,28 @@ public class MainActivity extends ActionBarActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn1:
-				gb.pullUp();
-				gb.randomAdd(1);
-				gb.toString();
+				if (gb.pullUp()) {
+					gb.randomAdd(1);
+					gb.toString();
+				}
 				break;
 			case R.id.btn2:
-				gb.pullDown();
-				gb.randomAdd(1);
-				gb.toString();
+				if (gb.pullDown()) {
+					gb.randomAdd(1);
+					gb.toString();
+				}
 				break;
 			case R.id.btn3:
-				gb.pullLeft();
-				gb.randomAdd(1);
-				gb.toString();
+				if (gb.pullLeft()) {
+					gb.randomAdd(1);
+					gb.toString();
+				}
 				break;
 			case R.id.btn4:
-				gb.pullRight();
-				gb.randomAdd(1);
-				gb.toString();
+				if (gb.pullRight()) {
+					gb.randomAdd(1);
+					gb.toString();
+				}
 				break;
 			case R.id.btn5:
 				gb.randomAdd(1);
