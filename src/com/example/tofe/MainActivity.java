@@ -182,7 +182,13 @@ public class MainActivity extends ActionBarActivity {
 						RelativeLayout item_layout = (RelativeLayout) grid_container.findViewById(10000 + n);// 可不可以直接保存这16个View，而不再通过id获取呢？
 						Log.w("liuy", "找到了" + item_layout.getId());
 						n++;
-						((TextView) item_layout.findViewById(R.id.tv_item)).setText(dimensionArray[i][j] + "");
+						TextView tv_item = (TextView) item_layout.findViewById(R.id.tv_item);
+						tv_item.setText(dimensionArray[i][j] + "");
+						if (dimensionArray[i][j] == -1) {
+							tv_item.setVisibility(View.INVISIBLE);
+						} else {
+							tv_item.setVisibility(View.VISIBLE);
+						}
 					}
 				}
 

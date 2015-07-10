@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 自定义颜色值 -->
+    <color name="background">#FFB27F</color>
+    <color name="item">#FF7F7F</color>
+
+</resources>
