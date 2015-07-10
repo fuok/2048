@@ -4,5 +4,6 @@
     <!-- 自定义颜色值 -->
     <color name="background">#FFB27F</color>
     <color name="item">#FF7F7F</color>
+    <color name="item_stroke">#89817B</color>
 
 </resources>
