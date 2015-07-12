@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
 	final static int PULL_DOWN = 2;
 	final static int PULL_LEFT = 3;
 	final static int PULL_RIGHT = 4;
-	final static int GAME_OVER = 9;
+	public final static int GAME_OVER = 9;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

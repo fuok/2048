@@ -2,6 +2,8 @@ package com.example.tofe;
 
 import java.util.Arrays;
 
+import com.example.tofe.MainActivity.PlaceholderFragment;
+
 import android.util.Log;
 
 public class GameBoard {
@@ -139,6 +141,7 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
+			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 
@@ -205,6 +208,7 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
+			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 	}
@@ -270,6 +274,7 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
+			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 	}
@@ -335,6 +340,7 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
+			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 
