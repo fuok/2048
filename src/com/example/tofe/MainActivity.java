@@ -87,6 +87,12 @@ public class MainActivity extends ActionBarActivity {
 
 		private static View rView;
 		private Button btn1, btn2, btn3, btn4, btn5;
+		static RelativeLayout[] items;
+		{
+			RelativeLayout item_layout_1 = null, item_layout_2 = null, item_layout_3 = null, item_layout_4 = null, item_layout_5 = null, item_layout_6 = null, item_layout_7 = null, item_layout_8 = null, item_layout_9 = null, item_layout_10 = null, item_layout_11 = null, item_layout_12 = null, item_layout_13 = null, item_layout_14 = null, item_layout_15 = null, item_layout_16 = null;
+			items = new RelativeLayout[] { item_layout_1, item_layout_2, item_layout_3, item_layout_4, item_layout_5, item_layout_6, item_layout_7, item_layout_8, item_layout_9, item_layout_10,
+					item_layout_11, item_layout_12, item_layout_13, item_layout_14, item_layout_15, item_layout_16 };
+		}
 
 		public PlaceholderFragment() {
 		}
@@ -165,7 +171,7 @@ public class MainActivity extends ActionBarActivity {
 			grid_container.setColumnCount(COL_NUMBER);
 			grid_container.setRowCount(COL_NUMBER);
 
-			for (int i = 0; i < 16; i++) {// 4*4
+			for (int i = 0; i < items.length; i++) {// 4*4
 				GridLayout.Spec rowSpec = GridLayout.spec(i / COL_NUMBER);// 呵呵3
 				GridLayout.Spec columnSpec = GridLayout.spec(i % COL_NUMBER);
 				GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
@@ -174,9 +180,9 @@ public class MainActivity extends ActionBarActivity {
 				params.height = COL_WIDTH;// LayoutParams.WRAP_CONTENT;
 				params.width = COL_WIDTH;
 
-				RelativeLayout item_layout = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.item_grid, null);
-				item_layout.setId(10000 + i);
-				grid_container.addView(item_layout, params);
+				items[i] = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.item_grid, null);
+				items[i].setId(10000 + i);
+				grid_container.addView(items[i], params);
 			}
 
 			// 定义手势动作
@@ -246,9 +252,7 @@ public class MainActivity extends ActionBarActivity {
 				int[][] dimensionArray = gb.getDArray();
 				for (int i = 0, n = 0; i < dimensionArray.length; i++) {
 					for (int j = 0; j < dimensionArray[i].length; j++) {
-						GridLayout grid_container = (GridLayout) rView.findViewById(R.id.grid_container);
-						RelativeLayout item_layout = (RelativeLayout) grid_container.findViewById(10000 + n);// 可不可以直接保存这16个View，而不再通过id获取呢？
-						Log.w("liuy", "找到了" + item_layout.getId());
+						RelativeLayout item_layout = items[n];// 从前面保存的View[]直接获取，不必再取
 						n++;
 						TextView tv_item = (TextView) item_layout.findViewById(R.id.tv_item);
 						tv_item.setText(dimensionArray[i][j] + "");
