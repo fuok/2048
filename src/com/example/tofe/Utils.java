@@ -5,6 +5,14 @@ import java.util.Arrays;
 import android.content.Context;
 
 public class Utils {
+	/**
+	 * 获取一个随机数
+	 *
+	 */
+	public static int getNumber1(final int Max, final int Min) {
+
+		return (int) Math.round(Math.random() * (Max - Min) + Min);
+	}
 
 	/**
 	 * 获取随机数数组（不重复）

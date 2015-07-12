@@ -119,25 +119,25 @@ public class MainActivity extends ActionBarActivity {
 					break;
 				case PULL_UP:
 					if (gb.pullUp()) {
-						gb.randomAdd(1);
+						gb.randomAdd();
 						gb.toString();
 					}
 					break;
 				case PULL_DOWN:
 					if (gb.pullDown()) {
-						gb.randomAdd(1);
+						gb.randomAdd();
 						gb.toString();
 					}
 					break;
 				case PULL_LEFT:
 					if (gb.pullLeft()) {
-						gb.randomAdd(1);
+						gb.randomAdd();
 						gb.toString();
 					}
 					break;
 				case PULL_RIGHT:
 					if (gb.pullRight()) {
-						gb.randomAdd(1);
+						gb.randomAdd();
 						gb.toString();
 					}
 					break;
