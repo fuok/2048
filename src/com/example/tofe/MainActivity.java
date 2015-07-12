@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.RelativeLayout;
@@ -85,6 +87,8 @@ public class MainActivity extends ActionBarActivity {
 		// 设定在某一方向上滑动距离大于100单位，速度大于100单位为手势方向成立
 		private final int FLING_MIN_DISTANCE = 100;
 		private final int FLING_MIN_VELOCITY = 100;
+		// 当每次滑动后添加进来新数字时，保存一下坐标
+		private static int[] newPosion = new int[2];
 
 		private static View rView;
 		private Button btn1, btn2, btn3, btn4, btn5;
@@ -119,29 +123,29 @@ public class MainActivity extends ActionBarActivity {
 					break;
 				case PULL_UP:
 					if (gb.pullUp()) {
-						gb.randomAdd();
+						newPosion = gb.randomAdd();
 						gb.toString();
 					}
 					break;
 				case PULL_DOWN:
 					if (gb.pullDown()) {
-						gb.randomAdd();
+						newPosion = gb.randomAdd();
 						gb.toString();
 					}
 					break;
 				case PULL_LEFT:
 					if (gb.pullLeft()) {
-						gb.randomAdd();
+						newPosion = gb.randomAdd();
 						gb.toString();
 					}
 					break;
 				case PULL_RIGHT:
 					if (gb.pullRight()) {
-						gb.randomAdd();
+						newPosion = gb.randomAdd();
 						gb.toString();
 					}
 					break;
-				case GAME_OVER:
+				case GAME_OVER:// 游戏结束，但这个目前还无法判断，TODO
 					Toast.makeText(getInstance().getActivity(), "游戏结束", Toast.LENGTH_SHORT).show();
 					return;
 				}
@@ -247,8 +251,6 @@ public class MainActivity extends ActionBarActivity {
 					// Log.w("liuy", "向右");
 					mHandler.sendEmptyMessage(PULL_RIGHT);
 				}
-
-				Log.e("onFling", "onFling");
 				return false;
 			}
 
@@ -271,6 +273,10 @@ public class MainActivity extends ActionBarActivity {
 						if (dimensionArray[i][j] == -1) {
 							tv_item.setVisibility(View.INVISIBLE);
 						} else {
+							if (newPosion[0] == i && newPosion[1] == j) {
+								Animation animation = AnimationUtils.loadAnimation(getInstance().getActivity(), android.R.anim.fade_in);
+								tv_item.startAnimation(animation);
+							}
 							tv_item.setVisibility(View.VISIBLE);
 						}
 					}

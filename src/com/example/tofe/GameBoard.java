@@ -27,7 +27,7 @@ public class GameBoard {
 	 * 随机添加数字（一般是2），这个方法针对添加单个的情况，同一作用的方法分开两个的目的是，用返回值标记出滑动后新添加的item
 	 * 
 	 */
-	public void randomAdd() {
+	public int[] randomAdd() {
 		// 首先找出可供添加新子的位置，也就是空格
 		int n = 0;
 		for (int i = 0; i < dimensionArray.length; i++) {
@@ -39,7 +39,6 @@ public class GameBoard {
 		}
 		Log.w("liuy", "空格数：" + n);
 		if (n > 0) {
-
 			// 根据空格数量，从中随机找出填充进去的格子
 			int randomNum = Utils.getNumber1(n, 1);
 			// Log.w("liuy", "填入的位置是：" + Arrays.toString(randomNum));
@@ -47,20 +46,16 @@ public class GameBoard {
 				for (int y = 0; y < dimensionArray[x].length; y++) {
 					if (dimensionArray[x][y] == -1) {
 						m++;
-						// for (int i = 0; i < randomNum.length; i++) {
 						if (randomNum == m) {
 							Log.w("liuy", "填充");
 							dimensionArray[x][y] = 2;// 填入的数值是2
+							return new int[] { x, y };// 在这里填入了新字，保存这个坐标
 						}
-						// }
 					}
 				}
 			}
-		} else {
-			Log.w("liuy", "填满了");// 这里应该是到不了了，因为移动时已经判断了doPlusOrMove，以下移动方法返回false就不会再调randomAdd了
-			return;
 		}
-
+		return new int[] { -1, -1 };
 	}
 
 	/**
@@ -181,7 +176,6 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
-			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 
@@ -248,7 +242,6 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
-			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 	}
@@ -314,7 +307,6 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
-			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 	}
@@ -380,7 +372,6 @@ public class GameBoard {
 			Log.w("liuy", "产生新数");
 		} else {
 			Log.w("liuy", "已无法移动");
-			PlaceholderFragment.mHandler.sendEmptyMessage(MainActivity.GAME_OVER);
 		}
 		return doPlusOrMove;
 
