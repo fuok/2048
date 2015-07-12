@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -68,7 +67,6 @@ public class MainActivity extends ActionBarActivity {
 		// }
 		switch (id) {
 		case R.id.action_restart:
-			Toast.makeText(getApplicationContext(), "haha", Toast.LENGTH_SHORT).show();
 			PlaceholderFragment.mHandler.sendEmptyMessage(GAME_START);
 			break;
 		case R.id.action_settings:
@@ -83,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment implements OnClickListener {
+	public static class PlaceholderFragment extends Fragment {
 		// 设定在某一方向上滑动距离大于100单位，速度大于100单位为手势方向成立
 		private final int FLING_MIN_DISTANCE = 100;
 		private final int FLING_MIN_VELOCITY = 100;
@@ -91,7 +89,6 @@ public class MainActivity extends ActionBarActivity {
 		private static int[] newPosion = new int[] { -1, -1 };
 
 		private static View rView;
-		private Button btn1, btn2, btn3, btn4, btn5;
 		static RelativeLayout[] items;
 		{
 			RelativeLayout item_layout_1 = null, item_layout_2 = null, item_layout_3 = null, item_layout_4 = null, item_layout_5 = null, item_layout_6 = null, item_layout_7 = null, item_layout_8 = null, item_layout_9 = null, item_layout_10 = null, item_layout_11 = null, item_layout_12 = null, item_layout_13 = null, item_layout_14 = null, item_layout_15 = null, item_layout_16 = null;
@@ -163,17 +160,6 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		private void iniView(final View v) {
-			btn1 = (Button) v.findViewById(R.id.btn1);
-			btn1.setOnClickListener(this);
-			btn2 = (Button) v.findViewById(R.id.btn2);
-			btn2.setOnClickListener(this);
-			btn3 = (Button) v.findViewById(R.id.btn3);
-			btn3.setOnClickListener(this);
-			btn4 = (Button) v.findViewById(R.id.btn4);
-			btn4.setOnClickListener(this);
-			btn5 = (Button) v.findViewById(R.id.btn5);
-			btn5.setOnClickListener(this);
-
 			// //////////////
 			// 获取每个子item宽度
 			int COL_NUMBER = 4;// 4列
@@ -283,31 +269,10 @@ public class MainActivity extends ActionBarActivity {
 						}
 					}
 				}
-
+				// 显示分数
+				TextView tv_sccore = (TextView) rView.findViewById(R.id.tv_sccore);
+				tv_sccore.setText(gb.getSccore());
 			}
-		}
-
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.btn1:
-				mHandler.sendEmptyMessage(PULL_UP);
-				break;
-			case R.id.btn2:
-				mHandler.sendEmptyMessage(PULL_DOWN);
-				break;
-			case R.id.btn3:
-				mHandler.sendEmptyMessage(PULL_LEFT);
-				break;
-			case R.id.btn4:
-				mHandler.sendEmptyMessage(PULL_RIGHT);
-				break;
-			case R.id.btn5:
-				gb.randomAdd(1);
-				gb.toString();
-				break;
-			}
-
 		}
 
 	}

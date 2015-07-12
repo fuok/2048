@@ -2,8 +2,6 @@ package com.example.tofe;
 
 import java.util.Arrays;
 
-import android.content.Context;
-
 public class Utils {
 	/**
 	 * 获取一个随机数

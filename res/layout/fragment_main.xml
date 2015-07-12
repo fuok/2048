@@ -9,39 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.tofe.MainActivity$PlaceholderFragment" >
 
-    <Button
-        android:id="@+id/btn1"
+    <TextView
+        android:id="@+id/tv_sccore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="up" />
-
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/btn1"
-        android:text="down" />
-
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/btn2"
-        android:text="left" />
-
-    <Button
-        android:id="@+id/btn4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/btn3"
-        android:text="right" />
-
-    <Button
-        android:id="@+id/btn5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/btn4"
-        android:text="add" />
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:text="10000"
+        android:textSize="80sp" />
 
     <GridLayout
         android:id="@+id/grid_container"

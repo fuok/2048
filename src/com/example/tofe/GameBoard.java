@@ -2,8 +2,6 @@ package com.example.tofe;
 
 import java.util.Arrays;
 
-import com.example.tofe.MainActivity.PlaceholderFragment;
-
 import android.util.Log;
 
 public class GameBoard {
@@ -111,6 +109,19 @@ public class GameBoard {
 		}
 		return "";
 
+	}
+
+	/** 获取分数 */
+	public String getSccore() {
+		int max = 0;
+		for (int i = 0; i < dimensionArray.length; i++) {
+			for (int j = 0; j < dimensionArray[i].length; j++) {
+				if (dimensionArray[i][j] != -1) {
+					max += dimensionArray[i][j];
+				}
+			}
+		}
+		return String.valueOf(max);
 	}
 
 	public boolean pullLeft() {// 向左移动数字，从左到右逐行取值
