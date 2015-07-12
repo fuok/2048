@@ -88,7 +88,7 @@ public class MainActivity extends ActionBarActivity {
 		private final int FLING_MIN_DISTANCE = 100;
 		private final int FLING_MIN_VELOCITY = 100;
 		// 当每次滑动后添加进来新数字时，保存一下坐标
-		private static int[] newPosion = new int[2];
+		private static int[] newPosion = new int[] { -1, -1 };
 
 		private static View rView;
 		private Button btn1, btn2, btn3, btn4, btn5;
@@ -274,6 +274,8 @@ public class MainActivity extends ActionBarActivity {
 							tv_item.setVisibility(View.INVISIBLE);
 						} else {
 							if (newPosion[0] == i && newPosion[1] == j) {
+								newPosion[0] = -1;
+								newPosion[1] = -1;// 及时清空
 								Animation animation = AnimationUtils.loadAnimation(getInstance().getActivity(), android.R.anim.fade_in);
 								tv_item.startAnimation(animation);
 							}
