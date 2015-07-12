@@ -10,10 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:background="@drawable/shape_item"
         android:gravity="center"
-        android:text="name"
-        android:textColor="#6a7989"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
 </RelativeLayout>

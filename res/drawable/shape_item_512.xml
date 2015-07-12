@@ -7,7 +7,7 @@
         android:width="2dp"
         android:color="@color/item_stroke" />
 
-    <solid android:color="@color/item" />
+    <solid android:color="@color/number_512" />
 
     <padding
         android:bottom="0dp"

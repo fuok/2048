@@ -94,7 +94,14 @@ public class MainActivity extends ActionBarActivity {
 					item_layout_11, item_layout_12, item_layout_13, item_layout_14, item_layout_15, item_layout_16 };
 		}
 
+		private static PlaceholderFragment instance;
+
+		public static PlaceholderFragment getInstance() {
+			return instance;
+		}
+
 		public PlaceholderFragment() {
+			instance = this;
 		}
 
 		@SuppressLint("HandlerLeak")
@@ -255,7 +262,8 @@ public class MainActivity extends ActionBarActivity {
 						RelativeLayout item_layout = items[n];// 从前面保存的View[]直接获取，不必再取
 						n++;
 						TextView tv_item = (TextView) item_layout.findViewById(R.id.tv_item);
-						tv_item.setText(dimensionArray[i][j] + "");
+						tv_item.setText(String.valueOf(dimensionArray[i][j]));
+						tv_item.setBackgroundResource(Utils.getColor(dimensionArray[i][j]));
 						if (dimensionArray[i][j] == -1) {
 							tv_item.setVisibility(View.INVISIBLE);
 						} else {

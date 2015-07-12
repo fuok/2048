@@ -2,8 +2,24 @@
 <resources>
 
     <!-- 自定义颜色值 -->
-    <color name="background">#FFB27F</color>
-    <color name="item">#FF7F7F</color>
+    <color name="white">#ffffff</color>
+    <color name="background">#fdf3e7</color>
+    <color name="playground">#f8efd8</color>
+    <color name="item">#000000</color>
     <color name="item_stroke">#89817B</color>
+    <!-- 数字颜色 -->
+    <color name="number_2">#b2e405</color>
+    <color name="number_4">#868dc1</color>
+    <color name="number_8">#71d7ca</color>
+    <color name="number_16">#e47888</color>
+    <color name="number_32">#9b97e8</color>
+    <color name="number_64">#ffbe4e</color>
+    <color name="number_128">#53aaf0</color>
+    <color name="number_256">#ffe59a</color>
+    <color name="number_512">#f24825</color>
+    <color name="number_1024">#f37a34</color>
+    <color name="number_2048">#af8136</color>
+    <color name="number_4096">#ff8ba1</color>
+    <color name="number_8192">#fd4e17</color>
 
 </resources>
