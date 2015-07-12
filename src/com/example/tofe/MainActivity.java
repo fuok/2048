@@ -9,12 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Display;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -77,6 +81,9 @@ public class MainActivity extends ActionBarActivity {
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment implements OnClickListener {
+		// 设定在某一方向上滑动距离大于50单位，速度大于100单位为手势方向成立
+		private final int FLING_MIN_DISTANCE = 50;
+		private final int FLING_MIN_VELOCITY = 100;
 
 		private static View rView;
 		private Button btn1, btn2, btn3, btn4, btn5;
@@ -171,7 +178,68 @@ public class MainActivity extends ActionBarActivity {
 				item_layout.setId(10000 + i);
 				grid_container.addView(item_layout, params);
 			}
+
+			// 定义手势动作
+			v.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					return mGestureDetector.onTouchEvent(event);
+				}
+			});
+			v.setFocusable(true);
+			v.setClickable(true);
+			v.setLongClickable(true);
+
 		}
+
+		GestureDetector mGestureDetector = new GestureDetector(getActivity(), new OnGestureListener() {
+
+			@Override
+			public boolean onSingleTapUp(MotionEvent e) {
+				return false;
+			}
+
+			@Override
+			public void onShowPress(MotionEvent e) {
+
+			}
+
+			@Override
+			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+				return false;
+			}
+
+			@Override
+			public void onLongPress(MotionEvent e) {
+
+			}
+
+			@Override
+			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				// Log.w("liuy", "X轴加速度：" + velocityX + ",Y轴加速度：" + velocityY);
+				if (e1.getY() - e2.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
+					// Log.w("liuy", "向上");
+					mHandler.sendEmptyMessage(PULL_UP);
+				} else if (e2.getY() - e1.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
+					// Log.w("liuy", "向下");
+					mHandler.sendEmptyMessage(PULL_DOWN);
+				} else if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+					// Log.w("liuy", "向左");
+					mHandler.sendEmptyMessage(PULL_LEFT);
+				} else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+					// Log.w("liuy", "向右");
+					mHandler.sendEmptyMessage(PULL_RIGHT);
+				}
+
+				Log.e("onFling", "onFling");
+				return false;
+			}
+
+			@Override
+			public boolean onDown(MotionEvent e) {
+				return false;
+			}
+		}, mHandler);
 
 		private static void refreshGrid() {
 			if (rView != null && gb != null) {
