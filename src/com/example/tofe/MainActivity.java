@@ -81,8 +81,8 @@ public class MainActivity extends ActionBarActivity {
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment implements OnClickListener {
-		// 设定在某一方向上滑动距离大于50单位，速度大于100单位为手势方向成立
-		private final int FLING_MIN_DISTANCE = 50;
+		// 设定在某一方向上滑动距离大于100单位，速度大于100单位为手势方向成立
+		private final int FLING_MIN_DISTANCE = 100;
 		private final int FLING_MIN_VELOCITY = 100;
 
 		private static View rView;
