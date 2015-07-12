@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:singleLine="true"
-        android:text="10000"
+        android:textColor="@color/text_sccore"
         android:textSize="80sp" />
 
     <GridLayout

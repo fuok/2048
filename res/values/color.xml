@@ -3,6 +3,7 @@
 
     <!-- 自定义颜色值 -->
     <color name="white">#ffffff</color>
+    <color name="text_sccore">#333333</color>
     <color name="background">#fdf3e7</color>
     <color name="playground">#f8efd8</color>
     <color name="item">#000000</color>
