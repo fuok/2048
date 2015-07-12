@@ -34,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
 	final static int PULL_DOWN = 2;
 	final static int PULL_LEFT = 3;
 	final static int PULL_RIGHT = 4;
+	final static int GAME_OVER = 9;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +141,9 @@ public class MainActivity extends ActionBarActivity {
 						gb.toString();
 					}
 					break;
+				case GAME_OVER:
+					Toast.makeText(getInstance().getActivity(), "游戏结束", Toast.LENGTH_SHORT).show();
+					return;
 				}
 				refreshGrid();
 			}
@@ -230,16 +234,16 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 				// Log.w("liuy", "X轴加速度：" + velocityX + ",Y轴加速度：" + velocityY);
-				if (e1.getY() - e2.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
+				if (e1.getY() - e2.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > Math.abs(velocityX) && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
 					// Log.w("liuy", "向上");
 					mHandler.sendEmptyMessage(PULL_UP);
-				} else if (e2.getY() - e1.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
+				} else if (e2.getY() - e1.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > Math.abs(velocityX) && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
 					// Log.w("liuy", "向下");
 					mHandler.sendEmptyMessage(PULL_DOWN);
-				} else if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+				} else if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > Math.abs(velocityY) && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
 					// Log.w("liuy", "向左");
 					mHandler.sendEmptyMessage(PULL_LEFT);
-				} else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+				} else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > Math.abs(velocityY) && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
 					// Log.w("liuy", "向右");
 					mHandler.sendEmptyMessage(PULL_RIGHT);
 				}
