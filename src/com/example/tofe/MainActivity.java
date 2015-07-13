@@ -1,6 +1,8 @@
 package com.example.tofe;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,12 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,8 +45,51 @@ public class MainActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
 		}
+	}
 
-		PlaceholderFragment.mHandler.sendEmptyMessage(GAME_START);
+	@Override
+	protected void onStart() {
+		super.onStart();
+		SharedPreferences preferences = getSharedPreferences("2048", MODE_PRIVATE);
+		boolean isFirst = preferences.getBoolean("isFirst", true);
+		if (isFirst) {
+			Editor editor = preferences.edit();
+			editor.putBoolean("isFirst", false);
+			editor.commit();
+			PlaceholderFragment.mHandler.sendEmptyMessage(GAME_START);
+		} else {
+			gb = new GameBoard();
+			int[][] dimensionArray = gb.getDArray();
+			for (int i = 0, n = 0; i < dimensionArray.length; i++) {
+				for (int j = 0; j < dimensionArray[i].length; j++) {
+					int num = preferences.getInt(String.valueOf(n), -1);
+					dimensionArray[i][j] = num;
+					n++;
+				}
+			}
+			PlaceholderFragment.refreshGrid();
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		PlaceholderFragment.refreshGrid();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		SharedPreferences preferences = getSharedPreferences("2048", MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		int[][] dimensionArray = gb.getDArray();
+		for (int i = 0, n = 0; i < dimensionArray.length; i++) {
+			for (int j = 0; j < dimensionArray[i].length; j++) {
+				editor.putInt(String.valueOf(n), dimensionArray[i][j]);
+				n++;
+			}
+		}
+		editor.commit();
 	}
 
 	@Override
