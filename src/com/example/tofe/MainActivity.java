@@ -175,7 +175,7 @@ public class MainActivity extends ActionBarActivity {
 		Display currDisplay = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		currDisplay.getSize(size);
-		int COL_WIDTH = (size.x / COL_NUMBER) - 12;// 两侧
+		int COL_WIDTH = (size.x / COL_NUMBER) - 12;// 两侧空出的部分
 		// //
 		GridLayout grid_container = (GridLayout) findViewById(R.id.grid_container);
 		grid_container.setColumnCount(COL_NUMBER);
@@ -264,11 +264,11 @@ public class MainActivity extends ActionBarActivity {
 					RelativeLayout item_layout = items[n];// 从前面保存的View[]直接获取，不必再取
 					n++;
 					TextView tv_item = (TextView) item_layout.findViewById(R.id.tv_item);
-					tv_item.setText(String.valueOf(dimensionArray[i][j]));
-					tv_item.setBackgroundResource(Utils.getColor(dimensionArray[i][j]));
 					if (dimensionArray[i][j] == -1) {
 						tv_item.setVisibility(View.INVISIBLE);
 					} else {
+						tv_item.setText(String.valueOf(dimensionArray[i][j]));
+						tv_item.setBackgroundResource(Utils.getColor(dimensionArray[i][j]));
 						if (newPosion[0] == i && newPosion[1] == j) {
 							newPosion[0] = -1;
 							newPosion[1] = -1;// 及时清空
