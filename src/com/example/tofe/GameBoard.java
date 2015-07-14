@@ -117,7 +117,8 @@ public class GameBoard {
 		for (int i = 0; i < dimensionArray.length; i++) {
 			for (int j = 0; j < dimensionArray[i].length; j++) {
 				if (dimensionArray[i][j] != -1) {
-					max += dimensionArray[i][j];
+					// int t = (int) Logarithm.log(dimensionArray[i][j], 2);
+					max += dimensionArray[i][j] * (int) Utils.log(dimensionArray[i][j], 2);
 				}
 			}
 		}

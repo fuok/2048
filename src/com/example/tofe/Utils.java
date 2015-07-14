@@ -91,4 +91,16 @@ public class Utils {
 		}
 		return color;
 	}
+
+	/**
+	 * 计算对数公式
+	 * 
+	 * @param value
+	 *            真数
+	 * @param base
+	 *            底数
+	 */
+	static public double log(double value, double base) {
+		return Math.log(value) / Math.log(base);
+	}
 }
