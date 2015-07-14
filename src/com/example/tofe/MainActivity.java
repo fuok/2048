@@ -7,19 +7,16 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
@@ -29,22 +26,19 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
-	private static GameBoard gb;
-	final static int GAME_START = 0;
-	final static int PULL_UP = 1;
-	final static int PULL_DOWN = 2;
-	final static int PULL_LEFT = 3;
-	final static int PULL_RIGHT = 4;
-	public final static int GAME_OVER = 9;
+	private GameBoard gb;
+	private final int GAME_START = 0;
+	private final int PULL_UP = 1;
+	private final int PULL_DOWN = 2;
+	private final int PULL_LEFT = 3;
+	private final int PULL_RIGHT = 4;
+	private final int GAME_OVER = 9;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
-		}
+		iniView();
 	}
 
 	@Override
@@ -56,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
 			Editor editor = preferences.edit();
 			editor.putBoolean("isFirst", false);
 			editor.commit();
-			PlaceholderFragment.mHandler.sendEmptyMessage(GAME_START);
+			mHandler.sendEmptyMessage(GAME_START);
 		} else {
 			gb = new GameBoard();
 			int[][] dimensionArray = gb.getDArray();
@@ -67,14 +61,8 @@ public class MainActivity extends ActionBarActivity {
 					n++;
 				}
 			}
-			PlaceholderFragment.refreshGrid();
+			refreshGrid();
 		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		PlaceholderFragment.refreshGrid();
 	}
 
 	@Override
@@ -110,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
 		// }
 		switch (id) {
 		case R.id.action_restart:
-			PlaceholderFragment.mHandler.sendEmptyMessage(GAME_START);
+			mHandler.sendEmptyMessage(GAME_START);
 			break;
 		case R.id.action_settings:
 
@@ -121,203 +109,180 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		// 设定在某一方向上滑动距离大于100单位，速度大于100单位为手势方向成立
-		private final int FLING_MIN_DISTANCE = 100;
-		private final int FLING_MIN_VELOCITY = 100;
-		// 当每次滑动后添加进来新数字时，保存一下坐标
-		private static int[] newPosion = new int[] { -1, -1 };
+	// 设定在某一方向上滑动距离大于100单位，速度大于100单位为手势方向成立
+	private final int FLING_MIN_DISTANCE = 100;
+	private final int FLING_MIN_VELOCITY = 100;
+	// 当每次滑动后添加进来新数字时，保存一下坐标
+	private int[] newPosion = new int[] { -1, -1 };
 
-		private static View rView;
-		static RelativeLayout[] items;
-		{
-			RelativeLayout item_layout_1 = null, item_layout_2 = null, item_layout_3 = null, item_layout_4 = null, item_layout_5 = null, item_layout_6 = null, item_layout_7 = null, item_layout_8 = null, item_layout_9 = null, item_layout_10 = null, item_layout_11 = null, item_layout_12 = null, item_layout_13 = null, item_layout_14 = null, item_layout_15 = null, item_layout_16 = null;
-			items = new RelativeLayout[] { item_layout_1, item_layout_2, item_layout_3, item_layout_4, item_layout_5, item_layout_6, item_layout_7, item_layout_8, item_layout_9, item_layout_10,
-					item_layout_11, item_layout_12, item_layout_13, item_layout_14, item_layout_15, item_layout_16 };
-		}
+	private RelativeLayout[] items;
 
-		private static PlaceholderFragment instance;
+	{
+		RelativeLayout item_layout_1 = null, item_layout_2 = null, item_layout_3 = null, item_layout_4 = null, item_layout_5 = null, item_layout_6 = null, item_layout_7 = null, item_layout_8 = null, item_layout_9 = null, item_layout_10 = null, item_layout_11 = null, item_layout_12 = null, item_layout_13 = null, item_layout_14 = null, item_layout_15 = null, item_layout_16 = null;
+		items = new RelativeLayout[] { item_layout_1, item_layout_2, item_layout_3, item_layout_4, item_layout_5, item_layout_6, item_layout_7, item_layout_8, item_layout_9, item_layout_10,
+				item_layout_11, item_layout_12, item_layout_13, item_layout_14, item_layout_15, item_layout_16 };
+	}
 
-		public static PlaceholderFragment getInstance() {
-			return instance;
-		}
-
-		public PlaceholderFragment() {
-			instance = this;
-		}
-
-		@SuppressLint("HandlerLeak")
-		public static Handler mHandler = new Handler() {
-
-			@Override
-			public void handleMessage(Message msg) {
-				super.handleMessage(msg);
-				switch (msg.what) {
-				case GAME_START:
-					gb = new GameBoard();
-					gb.randomAdd(2);
-					gb.toString();
-					break;
-				case PULL_UP:
-					if (gb.pullUp()) {
-						newPosion = gb.randomAdd();
-						gb.toString();
-					}
-					break;
-				case PULL_DOWN:
-					if (gb.pullDown()) {
-						newPosion = gb.randomAdd();
-						gb.toString();
-					}
-					break;
-				case PULL_LEFT:
-					if (gb.pullLeft()) {
-						newPosion = gb.randomAdd();
-						gb.toString();
-					}
-					break;
-				case PULL_RIGHT:
-					if (gb.pullRight()) {
-						newPosion = gb.randomAdd();
-						gb.toString();
-					}
-					break;
-				case GAME_OVER:// 游戏结束，但这个目前还无法判断，TODO
-					Toast.makeText(getInstance().getActivity(), "游戏结束", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				refreshGrid();
-			}
-
-		};
+	@SuppressLint("HandlerLeak")
+	private Handler mHandler = new Handler() {
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-			rView = rootView;
-			iniView(rootView);
-			return rootView;
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case GAME_START:
+				gb = new GameBoard();
+				gb.randomAdd(2);
+				gb.toString();
+				break;
+			case PULL_UP:
+				if (gb.pullUp()) {
+					newPosion = gb.randomAdd();
+					gb.toString();
+				}
+				break;
+			case PULL_DOWN:
+				if (gb.pullDown()) {
+					newPosion = gb.randomAdd();
+					gb.toString();
+				}
+				break;
+			case PULL_LEFT:
+				if (gb.pullLeft()) {
+					newPosion = gb.randomAdd();
+					gb.toString();
+				}
+				break;
+			case PULL_RIGHT:
+				if (gb.pullRight()) {
+					newPosion = gb.randomAdd();
+					gb.toString();
+				}
+				break;
+			case GAME_OVER:// 游戏结束，但这个目前还无法判断，TODO
+				Toast.makeText(MainActivity.this, "游戏结束", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			refreshGrid();
 		}
 
-		private void iniView(final View v) {
-			// //////////////
-			// 获取每个子item宽度
-			int COL_NUMBER = 4;// 4列
-			Display currDisplay = getActivity().getWindowManager().getDefaultDisplay();
-			Point size = new Point();
-			currDisplay.getSize(size);
-			int COL_WIDTH = (size.x / COL_NUMBER) - 12;// 两侧
-			// //
-			GridLayout grid_container = (GridLayout) v.findViewById(R.id.grid_container);
-			grid_container.setColumnCount(COL_NUMBER);
-			grid_container.setRowCount(COL_NUMBER);
+	};
 
-			for (int i = 0; i < items.length; i++) {// 4*4
-				GridLayout.Spec rowSpec = GridLayout.spec(i / COL_NUMBER);// 呵呵3
-				GridLayout.Spec columnSpec = GridLayout.spec(i % COL_NUMBER);
-				GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+	private void iniView() {
+		// //////////////
+		// 获取每个子item宽度
+		int COL_NUMBER = 4;// 4列
+		Display currDisplay = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		currDisplay.getSize(size);
+		int COL_WIDTH = (size.x / COL_NUMBER) - 12;// 两侧
+		// //
+		GridLayout grid_container = (GridLayout) findViewById(R.id.grid_container);
+		grid_container.setColumnCount(COL_NUMBER);
+		grid_container.setRowCount(COL_NUMBER);
 
-				params.setGravity(Gravity.CENTER);
-				params.height = COL_WIDTH;// LayoutParams.WRAP_CONTENT;
-				params.width = COL_WIDTH;
+		for (int i = 0; i < items.length; i++) {// 4*4
+			GridLayout.Spec rowSpec = GridLayout.spec(i / COL_NUMBER);// 呵呵3
+			GridLayout.Spec columnSpec = GridLayout.spec(i % COL_NUMBER);
+			GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
 
-				items[i] = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.item_grid, null);
-				items[i].setId(10000 + i);
-				grid_container.addView(items[i], params);
+			params.setGravity(Gravity.CENTER);
+			params.height = COL_WIDTH;// LayoutParams.WRAP_CONTENT;
+			params.width = COL_WIDTH;
+
+			items[i] = (RelativeLayout) getLayoutInflater().inflate(R.layout.item_grid, null);
+			items[i].setId(10000 + i);
+			grid_container.addView(items[i], params);
+		}
+
+		// 定义手势动作
+		grid_container.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return mGestureDetector.onTouchEvent(event);
 			}
+		});
+		grid_container.setFocusable(true);
+		grid_container.setClickable(true);
+		grid_container.setLongClickable(true);
 
-			// 定义手势动作
-			v.setOnTouchListener(new OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					return mGestureDetector.onTouchEvent(event);
-				}
-			});
-			v.setFocusable(true);
-			v.setClickable(true);
-			v.setLongClickable(true);
+	}
+
+	@SuppressWarnings("deprecation")
+	GestureDetector mGestureDetector = new GestureDetector(new OnGestureListener() {
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			return false;
+		}
+
+		@Override
+		public void onShowPress(MotionEvent e) {
 
 		}
 
-		GestureDetector mGestureDetector = new GestureDetector(getActivity(), new OnGestureListener() {
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+			return false;
+		}
 
-			@Override
-			public boolean onSingleTapUp(MotionEvent e) {
-				return false;
+		@Override
+		public void onLongPress(MotionEvent e) {
+
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			// Log.w("liuy", "X轴加速度：" + velocityX + ",Y轴加速度：" + velocityY);
+			if (e1.getY() - e2.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > Math.abs(velocityX) && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
+				// Log.w("liuy", "向上");
+				mHandler.sendEmptyMessage(PULL_UP);
+			} else if (e2.getY() - e1.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > Math.abs(velocityX) && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
+				// Log.w("liuy", "向下");
+				mHandler.sendEmptyMessage(PULL_DOWN);
+			} else if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > Math.abs(velocityY) && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+				// Log.w("liuy", "向左");
+				mHandler.sendEmptyMessage(PULL_LEFT);
+			} else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > Math.abs(velocityY) && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+				// Log.w("liuy", "向右");
+				mHandler.sendEmptyMessage(PULL_RIGHT);
 			}
+			return false;
+		}
 
-			@Override
-			public void onShowPress(MotionEvent e) {
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return false;
+		}
+	});
 
-			}
-
-			@Override
-			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-				return false;
-			}
-
-			@Override
-			public void onLongPress(MotionEvent e) {
-
-			}
-
-			@Override
-			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-				// Log.w("liuy", "X轴加速度：" + velocityX + ",Y轴加速度：" + velocityY);
-				if (e1.getY() - e2.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > Math.abs(velocityX) && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
-					// Log.w("liuy", "向上");
-					mHandler.sendEmptyMessage(PULL_UP);
-				} else if (e2.getY() - e1.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > Math.abs(velocityX) && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
-					// Log.w("liuy", "向下");
-					mHandler.sendEmptyMessage(PULL_DOWN);
-				} else if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > Math.abs(velocityY) && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
-					// Log.w("liuy", "向左");
-					mHandler.sendEmptyMessage(PULL_LEFT);
-				} else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > Math.abs(velocityY) && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
-					// Log.w("liuy", "向右");
-					mHandler.sendEmptyMessage(PULL_RIGHT);
-				}
-				return false;
-			}
-
-			@Override
-			public boolean onDown(MotionEvent e) {
-				return false;
-			}
-		}, mHandler);
-
-		private static void refreshGrid() {
-			if (rView != null && gb != null) {
-				int[][] dimensionArray = gb.getDArray();
-				for (int i = 0, n = 0; i < dimensionArray.length; i++) {
-					for (int j = 0; j < dimensionArray[i].length; j++) {
-						RelativeLayout item_layout = items[n];// 从前面保存的View[]直接获取，不必再取
-						n++;
-						TextView tv_item = (TextView) item_layout.findViewById(R.id.tv_item);
-						tv_item.setText(String.valueOf(dimensionArray[i][j]));
-						tv_item.setBackgroundResource(Utils.getColor(dimensionArray[i][j]));
-						if (dimensionArray[i][j] == -1) {
-							tv_item.setVisibility(View.INVISIBLE);
-						} else {
-							if (newPosion[0] == i && newPosion[1] == j) {
-								newPosion[0] = -1;
-								newPosion[1] = -1;// 及时清空
-								Animation animation = AnimationUtils.loadAnimation(getInstance().getActivity(), android.R.anim.fade_in);
-								tv_item.startAnimation(animation);
-							}
-							tv_item.setVisibility(View.VISIBLE);
+	private void refreshGrid() {
+		if (gb != null) {
+			int[][] dimensionArray = gb.getDArray();
+			for (int i = 0, n = 0; i < dimensionArray.length; i++) {
+				for (int j = 0; j < dimensionArray[i].length; j++) {
+					RelativeLayout item_layout = items[n];// 从前面保存的View[]直接获取，不必再取
+					n++;
+					TextView tv_item = (TextView) item_layout.findViewById(R.id.tv_item);
+					tv_item.setText(String.valueOf(dimensionArray[i][j]));
+					tv_item.setBackgroundResource(Utils.getColor(dimensionArray[i][j]));
+					if (dimensionArray[i][j] == -1) {
+						tv_item.setVisibility(View.INVISIBLE);
+					} else {
+						if (newPosion[0] == i && newPosion[1] == j) {
+							newPosion[0] = -1;
+							newPosion[1] = -1;// 及时清空
+							Animation animation = AnimationUtils.loadAnimation(MainActivity.this, android.R.anim.fade_in);
+							tv_item.startAnimation(animation);
 						}
+						tv_item.setVisibility(View.VISIBLE);
 					}
 				}
-				// 显示分数
-				TextView tv_sccore = (TextView) rView.findViewById(R.id.tv_sccore);
-				tv_sccore.setText(gb.getSccore());
 			}
+			// 显示分数
+			TextView tv_sccore = (TextView) findViewById(R.id.tv_sccore);
+			tv_sccore.setText(gb.getSccore());
 		}
-
 	}
 
 }
