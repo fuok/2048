@@ -35,7 +35,7 @@ public class GameBoard {
 				}
 			}
 		}
-		Log.w("liuy", "空格数：" + n);
+		// Log.w("liuy", "空格数：" + n);
 		if (n > 0) {
 			// 根据空格数量，从中随机找出填充进去的格子
 			int randomNum = Utils.getNumber1(n, 1);
@@ -45,7 +45,7 @@ public class GameBoard {
 					if (dimensionArray[x][y] == -1) {
 						m++;
 						if (randomNum == m) {
-							Log.w("liuy", "填充");
+							// Log.w("liuy", "填充");
 							dimensionArray[x][y] = 2;// 填入的数值是2
 							return new int[] { x, y };// 在这里填入了新字，保存这个坐标
 						}
@@ -72,19 +72,19 @@ public class GameBoard {
 				}
 			}
 		}
-		Log.w("liuy", "空格数：" + n);
+		// Log.w("liuy", "空格数：" + n);
 		if (n > 0) {
 
 			// 根据空格数量，从中随机找出填充进去的格子
 			int[] randomNum = Utils.getNumber2(count, n, 1);
-			Log.w("liuy", "填入的位置是：" + Arrays.toString(randomNum));
+			// Log.w("liuy", "填入的位置是：" + Arrays.toString(randomNum));
 			for (int x = 0, m = 0; x < dimensionArray.length; x++) {
 				for (int y = 0; y < dimensionArray[x].length; y++) {
 					if (dimensionArray[x][y] == -1) {
 						m++;
 						for (int i = 0; i < randomNum.length; i++) {
 							if (randomNum[i] == m) {
-								Log.w("liuy", "填充");
+								// Log.w("liuy", "填充");
 								dimensionArray[x][y] = 2;// 填入的数值是2
 							}
 						}

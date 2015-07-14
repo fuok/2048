@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	// 设定在某一方向上滑动距离大于100单位，速度大于100单位为手势方向成立
+	// 设定在某一方向上滑动距离大于100单位、速度大于100单位，视为手势方向成立
 	private final int FLING_MIN_DISTANCE = 100;
 	private final int FLING_MIN_VELOCITY = 100;
 	// 当每次滑动后添加进来新数字时，保存一下坐标
@@ -133,30 +133,30 @@ public class MainActivity extends ActionBarActivity {
 			case GAME_START:
 				gb = new GameBoard();
 				gb.randomAdd(2);
-				gb.toString();
+				// gb.toString();
 				break;
 			case PULL_UP:
 				if (gb.pullUp()) {
 					newPosion = gb.randomAdd();
-					gb.toString();
+					// gb.toString();
 				}
 				break;
 			case PULL_DOWN:
 				if (gb.pullDown()) {
 					newPosion = gb.randomAdd();
-					gb.toString();
+					// gb.toString();
 				}
 				break;
 			case PULL_LEFT:
 				if (gb.pullLeft()) {
 					newPosion = gb.randomAdd();
-					gb.toString();
+					// gb.toString();
 				}
 				break;
 			case PULL_RIGHT:
 				if (gb.pullRight()) {
 					newPosion = gb.randomAdd();
-					gb.toString();
+					// gb.toString();
 				}
 				break;
 			case GAME_OVER:// 游戏结束，但这个目前还无法判断，TODO
@@ -169,7 +169,6 @@ public class MainActivity extends ActionBarActivity {
 	};
 
 	private void iniView() {
-		// //////////////
 		// 获取每个子item宽度
 		int COL_NUMBER = 4;// 4列
 		Display currDisplay = getWindowManager().getDefaultDisplay();
@@ -182,7 +181,7 @@ public class MainActivity extends ActionBarActivity {
 		grid_container.setRowCount(COL_NUMBER);
 
 		for (int i = 0; i < items.length; i++) {// 4*4
-			GridLayout.Spec rowSpec = GridLayout.spec(i / COL_NUMBER);// 呵呵3
+			GridLayout.Spec rowSpec = GridLayout.spec(i / COL_NUMBER);
 			GridLayout.Spec columnSpec = GridLayout.spec(i % COL_NUMBER);
 			GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
 
