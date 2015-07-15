@@ -1,7 +1,5 @@
 package com.example.tofe;
 
-import java.util.Arrays;
-
 import android.util.Log;
 
 public class GameBoard {
@@ -45,8 +43,8 @@ public class GameBoard {
 					if (dimensionArray[x][y] == -1) {
 						m++;
 						if (randomNum == m) {
-							// Log.w("liuy", "填充");
-							dimensionArray[x][y] = 2;// 填入的数值是2
+							// Log.w("liuy", "填充:"+Math.random());
+							dimensionArray[x][y] = Math.random() > 0.3 ? 2 : 4;// 填入的数值是2或者4
 							return new int[] { x, y };// 在这里填入了新字，保存这个坐标
 						}
 					}
@@ -84,8 +82,7 @@ public class GameBoard {
 						m++;
 						for (int i = 0; i < randomNum.length; i++) {
 							if (randomNum[i] == m) {
-								// Log.w("liuy", "填充");
-								dimensionArray[x][y] = 2;// 填入的数值是2
+								dimensionArray[x][y] = Math.random() > 0.3 ? 2 : 4;// 填入的数值是2或者4
 							}
 						}
 					}
